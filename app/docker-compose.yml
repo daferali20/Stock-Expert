@@ -1,0 +1,145 @@
+# backend/docker-compose.yml
+version: '3.8'
+
+services:
+  # FastAPI Backend
+  backend:
+    build: .
+    container_name: bytoby-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - ENVIRONMENT=development
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/bytoby_db
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - ./app:/app/app
+      - ./alembic:/app/alembic
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    networks:
+      - bytoby-network
+
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: bytoby-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=bytoby_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - bytoby-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis (Cache & Workers)
+  redis:
+    image: redis:7-alpine
+    container_name: bytoby-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - bytoby-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Celery Worker
+  celery-worker:
+    build: .
+    container_name: bytoby-celery
+    command: celery -A app.workers.celery_app worker --loglevel=info
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/bytoby_db
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - ./app:/app/app
+    networks:
+      - bytoby-network
+
+  # Celery Beat (Scheduler)
+  celery-beat:
+    build: .
+    container_name: bytoby-celery-beat
+    command: celery -A app.workers.celery_app beat --loglevel=info
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/bytoby_db
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - ./app:/app/app
+    networks:
+      - bytoby-network
+
+  # Streamlit Frontend (Optional)
+  frontend:
+    image: python:3.11-slim
+    container_name: bytoby-frontend
+    ports:
+      - "8501:8501"
+    working_dir: /app
+    command: >
+      sh -c "
+      pip install streamlit requests plotly pandas yfinance &&
+      streamlit run streamlit_app/app.py --server.port 8501 --server.address 0.0.0.0
+      "
+    volumes:
+      - ./streamlit_app:/app/streamlit_app
+    depends_on:
+      - backend
+    networks:
+      - bytoby-network
+
+  # Prometheus (Monitoring)
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: bytoby-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    networks:
+      - bytoby-network
+
+  # Grafana (Visualization)
+  grafana:
+    image: grafana/grafana:latest
+    container_name: bytoby-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+    networks:
+      - bytoby-network
+
+volumes:
+  postgres_data:
+  redis_data:
+  prometheus_data:
+  grafana_data:
+
+networks:
+  bytoby-network:
+    driver: bridge
