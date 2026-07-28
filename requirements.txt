@@ -1,5 +1,11 @@
 # /mount/src/stock-expert/requirements.txt
+fastapi
+uvicorn[standard]
+python-dotenv
+pydantic
+pydantic-settings
 streamlit
 plotly
 pandas
 numpy
+requests
