@@ -1,89 +1,13 @@
-# ============================
-# ByToBy AI Backend
-# requirements.txt
-# ============================
-
-# FastAPI
-fastapi==0.116.1
-uvicorn[standard]==0.35.0
-
-# Database
-sqlalchemy==2.0.43
+fastapi==0.115.12
+uvicorn[standard]==0.34.0
+sqlalchemy==2.0.36
+asyncpg==0.30.0
 psycopg2-binary==2.9.10
-alembic==1.16.5
-
-# Validation
-pydantic==2.11.7
-pydantic-settings==2.10.1
-email-validator==2.2.0
-
-# Authentication
-python-jose[cryptography]==3.5.0
+pydantic==2.10.6
+pydantic-settings==2.7.0
+python-jose[cryptography]==3.3.0
 passlib[bcrypt]==1.7.4
-bcrypt==4.3.0
-
-# Multipart
 python-multipart==0.0.20
-
-# Environment
-python-dotenv==1.1.1
-
-# HTTP
-httpx==0.28.1
-requests==2.32.5
-
-# Redis
-redis==6.4.0
-
-# Background Tasks
-celery==5.5.3
-
-# WebSocket
-websockets==15.0.1
-
-# Data
-pandas==2.3.2
-numpy==2.3.2
-
-# Technical Indicators
-pandas-ta==0.3.14b0
-ta==0.11.0
-
-# Machine Learning
-scikit-learn==1.7.1
-joblib==1.5.2
-xgboost==3.0.4
-lightgbm==4.6.0
-
-# Deep Learning
-tensorflow==2.20.0
-torch==2.8.0
-torchvision==0.23.0
-
-# Computer Vision
-opencv-python==4.12.0.88
-ultralytics==8.3.191
-
-# Charts
-mplfinance==0.12.10b0
-plotly==6.3.0
-
-# Finance APIs
-yfinance==0.2.65
-
-# Scheduler
-apscheduler==3.11.0
-
-# Logging
-loguru==0.7.3
-
-# Testing
-pytest==8.4.2
-pytest-asyncio==1.1.0
-
-# Production
-gunicorn==23.0.0
-
-# Utilities
-orjson==3.11.3
-ujson==5.11.0
+email-validator==2.2.0
+alembic==1.14.1  # لإدارة ترحيلات قاعدة البيانات
+python-dotenv==1.0.1
