@@ -6,7 +6,19 @@ import logging
 
 from .core.config import settings
 from .core.database import init_db, check_db_connection
+# app.py (Streamlit)
+import streamlit as st
 
+st.set_page_config(
+    page_title="ByToBy AI",
+    page_icon="📈",
+    layout="wide"
+)
+
+st.title("📈 ByToBy AI - Stock Analysis Platform")
+st.write("منصة تحليل الأسهم بالذكاء الاصطناعي")
+
+# يمكنك هنا استدعاء API الخاص بك
 # إعداد السجلات
 logging.basicConfig(
     level=logging.INFO if not settings.DEBUG else logging.DEBUG,
