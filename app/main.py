@@ -6,7 +6,6 @@ import logging
 
 from .core.config import settings
 from .core.database import init_db, check_db_connection
-from .core.security import security_service
 
 # إعداد السجلات
 logging.basicConfig(
@@ -58,11 +57,10 @@ app.add_middleware(
 )
 
 # استيراد المسارات
-from .routes import auth, users, stocks  # سننشئها لاحقاً
+from .routes import auth, users
 
 app.include_router(auth.router, prefix="/api/v1/auth", tags=["authentication"])
 app.include_router(users.router, prefix="/api/v1/users", tags=["users"])
-app.include_router(stocks.router, prefix="/api/v1/stocks", tags=["stocks"])
 
 # نقاط النهاية الأساسية
 @app.get("/")
