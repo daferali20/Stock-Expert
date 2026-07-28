@@ -1,3 +1,4 @@
+# /mount/src/stock-expert/requirements.txt
 fastapi
 uvicorn[standard]
 python-dotenv
