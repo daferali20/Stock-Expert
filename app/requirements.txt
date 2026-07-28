@@ -1,78 +1,25 @@
-# backend/requirements.txt
-# ============================================
-# Core Framework
-# ============================================
-fastapi==0.115.12
-uvicorn[standard]==0.34.0
-python-dotenv==1.0.1
-pydantic==2.10.6
-pydantic-settings==2.7.0
-
-# ============================================
-# Database
-# ============================================
-sqlalchemy==2.0.36
-asyncpg==0.30.0
-psycopg2-binary==2.9.10
-alembic==1.14.1
-
-# ============================================
-# Security
-# ============================================
-python-jose[cryptography]==3.3.0
-passlib[bcrypt]==1.7.4
-python-multipart==0.0.20
-email-validator==2.2.0
-bcrypt==4.2.1
-
-# ============================================
-# AI & Machine Learning
-# ============================================
-openai==1.59.9
-langchain==0.3.15
-langchain-openai==0.3.1
-transformers==4.47.1
-torch==2.5.1
-sentence-transformers==3.3.1
-scikit-learn==1.6.1
-pandas==2.2.3
-numpy==2.2.3
-ta==0.11.0
-yfinance==0.2.52
-
-# ============================================
-# External APIs
-# ============================================
-httpx==0.28.1
-aiohttp==3.11.11
-requests==2.32.3
-polygon-api-client==1.16.0
-
-# ============================================
-# Async & Workers
-# ============================================
-celery==5.4.0
-redis==5.2.0
-asyncio==3.4.3
-apscheduler==3.10.4
-
-# ============================================
-# Monitoring & Logging
-# ============================================
-prometheus-client==0.21.1
-python-json-logger==3.3.0
-sentry-sdk==2.19.2
-loguru==0.7.3
-
-# ============================================
-# WebSocket
-# ============================================
-websockets==14.1
-
-# ============================================
-# Utilities
-# ============================================
-celery-redbeat==2.0.0
-python-dateutil==2.9.0
-pytz==2024.2
-tenacity==9.0.0
+# backend/requirements.txt - بدون إصدارات محددة
+fastapi
+uvicorn[standard]
+python-dotenv
+pydantic
+pydantic-settings
+sqlalchemy
+asyncpg
+psycopg2-binary
+alembic
+python-jose[cryptography]
+passlib[bcrypt]
+python-multipart
+email-validator
+httpx
+aiohttp
+requests
+pandas
+numpy
+yfinance
+celery
+redis
+python-dateutil
+pytz
+tenacity
