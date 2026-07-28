@@ -60,4 +60,22 @@ class Alert(Base):
     
     # Relationships
     user = relationship("User", back_populates="alerts")
-    stock_alerts = relationship("StockAlert", back_populates="alert", cascade="
+    stock_alerts = relationship("StockAlert", back_populates="alert", cascade="all, delete-orphan")
+    
+    def __repr__(self):
+        return f"<Alert {self.alert_type} - {self.status}>"
+
+class StockAlert(Base):
+    """ربط التنبيه بالسهم"""
+    __tablename__ = "stock_alerts"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    alert_id = Column(Integer, ForeignKey("alerts.id", ondelete="CASCADE"), nullable=False)
+    stock_id = Column(Integer, ForeignKey("stocks.id", ondelete="CASCADE"), nullable=False)
+    
+    # Relationships
+    alert = relationship("Alert", back_populates="stock_alerts")
+    stock = relationship("Stock")
+    
+    def __repr__(self):
+        return f"<StockAlert {self.stock.symbol} - Alert {self.alert_id}>"
