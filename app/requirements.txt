@@ -1,4 +1,7 @@
 # requirements.txt (بدون إصدارات)
+fastapi==0.115.12
+uvicorn[standard]==0.34.0
+streamlit>=1.28.0
 fastapi
 uvicorn[standard]
 sqlalchemy
